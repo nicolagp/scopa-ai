@@ -23,11 +23,47 @@ class PlayerTest(unittest.TestCase):
 
 class ScopaTest(unittest.TestCase):
     def setUp(self) -> None:
-        p1 = Player("p1")
-        p2 = Player("p2")
-        self.scopa = Scopa(p1, p2)
+        self.p1 = Player("p1")
+        self.p2 = Player("p2")
+        self.scopa = Scopa(self.p1, self.p2)
 
     def test_can_init_deck(self):
         self.scopa.init_deck()
+        for i in self.scopa.deck:
+            print(i)
         self.assertEqual(len(self.scopa.deck), 40)
         self.assertEqual(len(self.scopa.deck), len(set(self.scopa.deck)))
+
+    def test_shuffle(self):
+        self.scopa.init_deck()
+        self.scopa.shuffle()
+        scopa2 = Scopa(Player("a"), Player("b"))
+        scopa2.init_deck()
+        self.assertNotEqual(self.scopa.deck, scopa2.deck)
+        self.assertEqual(set(self.scopa.deck), set(scopa2.deck))
+
+    def test_deal(self):
+        scopa2 = Scopa(Player("a"), Player("b"))
+        scopa2.init_deck()
+        self.scopa.init_deck()
+        self.scopa.shuffle()
+        self.scopa.deal()
+        # Check that hands have three cards
+        self.assertEqual(len(self.scopa.players[0].hand), 3)
+        self.assertEqual(len(self.scopa.players[1].hand), 3)
+        # Check that all cards are in the game
+        print("Player 1: ")
+        for i in self.scopa.players[1].hand:
+            print(i)
+        print("Player 2: ")
+        for i in self.scopa.players[0].hand:
+            print(i)
+
+        self.assertEqual(set(self.scopa.deck).union(set(self.scopa.players[1].hand), set(self.scopa.players[0].hand)),
+                         set(scopa2.deck))
+
+    def test_move(self):
+        pass
+
+    def test_score(self):
+        pass

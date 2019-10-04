@@ -11,7 +11,7 @@ class Scopa:
         self.table = []
 
     """ Deals 3 cards to players from the remaining cards in deck """
-    def deal(self) -> None:
+    def deal(self):
         if self.round % 2 == 0:
             first = self.players[0]
             second = self.players[1]
@@ -19,9 +19,10 @@ class Scopa:
             first = self.players[1]
             second = self.players[0]
 
-        for i in self.deck[:6:2]:
-            first.hand += self.deck[i]
-            second.hand += self.deck[i+1]
+        for i in range(0, 6, 2):
+            first.hand.append(self.deck[i])
+            second.hand.append(self.deck[i+1])
+
         self.deck = self.deck[6:]
 
     """ Starts game by initializing deck, dealing cards and putting cards on the table """
@@ -55,3 +56,6 @@ class Scopa:
     def score(self, p1: Player, p2: Player) -> (int, int):
         pass
 
+    """ Updates game state with move, i is the index of the card to be played """
+    def move(self, player: Player, i: int):
+        pass
