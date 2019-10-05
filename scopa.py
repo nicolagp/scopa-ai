@@ -1,6 +1,7 @@
 import random
 from card import *
 from player import *
+from typing import List
 
 class Scopa:
     def __init__(self, p1: Player, p2: Player):
@@ -52,10 +53,28 @@ class Scopa:
             self.deck[i] = self.deck[j]
             self.deck[j] = temp
 
-    """ Scores each player's pile of cards and returns score for round, also increments round """
-    def score(self, p1: Player, p2: Player) -> (int, int):
+    """ Checks if a move is valid. p is the player's card and t is a list of cards on the table """
+    def valid_move(self, p: Card, t: List[Card]) -> bool:
+        # check if values add up
+        count = 0
+        for i in t:
+            count += i.value
+        if count != p.value:
+            return False
+        # check if there isn't a card of same value in table
+        if len(t) > 1:
+            for i in self.table:
+                if i.value == p.value:
+                    return False
+
+        return True
+
+    """ Updates game state with move, p is the index of the card int the player's hand and
+    t is a list with the indices of the cards in the table to be taken """
+    def move(self, player: Player, p: int, t: List[int]):
         pass
 
-    """ Updates game state with move, i is the index of the card to be played """
-    def move(self, player: Player, i: int):
+    """ Scores each player's pile of cards and returns score for round, also increments round """
+
+    def score(self, p1: Player, p2: Player) -> (int, int):
         pass

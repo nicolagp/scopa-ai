@@ -29,8 +29,6 @@ class ScopaTest(unittest.TestCase):
 
     def test_can_init_deck(self):
         self.scopa.init_deck()
-        for i in self.scopa.deck:
-            print(i)
         self.assertEqual(len(self.scopa.deck), 40)
         self.assertEqual(len(self.scopa.deck), len(set(self.scopa.deck)))
 
@@ -52,15 +50,17 @@ class ScopaTest(unittest.TestCase):
         self.assertEqual(len(self.scopa.players[0].hand), 3)
         self.assertEqual(len(self.scopa.players[1].hand), 3)
         # Check that all cards are in the game
-        print("Player 1: ")
-        for i in self.scopa.players[1].hand:
-            print(i)
-        print("Player 2: ")
-        for i in self.scopa.players[0].hand:
-            print(i)
-
         self.assertEqual(set(self.scopa.deck).union(set(self.scopa.players[1].hand), set(self.scopa.players[0].hand)),
                          set(scopa2.deck))
+
+    def test_start(self):
+        self.scopa.start()
+        scopa2 = Scopa(Player("a"), Player("b"))
+        scopa2.init_deck()
+        self.assertEqual(set(self.scopa.deck).union(set(self.scopa.players[0].hand), set(self.scopa.players[1].hand), set(self.scopa.table)),
+                         set(scopa2.deck))
+        self.assertEqual(len(self.scopa.deck) + len(self.scopa.players[0].hand) + len(self.scopa.players[1].hand) + len(self.scopa.table), 40)
+
 
     def test_move(self):
         pass
