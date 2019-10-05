@@ -10,6 +10,9 @@ class Scopa:
         self.round = 0
         self.players = (p1, p2)
         self.table = []
+        # initialize game
+        self.start()
+
 
     """ Deals 3 cards to players from the remaining cards in deck """
     def deal(self):
@@ -28,16 +31,33 @@ class Scopa:
 
     """ Starts game by initializing deck, dealing cards and putting cards on the table """
     def start(self):
-        self.init_deck()
-        self.shuffle()
-        self.deal()
-        for i in self.deck[:4]:
-            self.table.append(i)
-        self.deck = self.deck[4:]
+        while True:
+            self.init_deck()
+            self.shuffle()
+            self.deal()
+            numKings = 0
 
+            for i in self.deck[:4]:
+                if i.value == 10:
+                    numKings += 1
+                self.table.append(i)
+
+            # need to check that there aren't three or four kings in starting table
+            if numKings < 3:
+                break
+            # undo deal
+            else:
+                for i in range(3):
+                    self.deck.append(self.players[0].hand[i])
+                    self.deck.append(self.players[1].hand[i])
+                self.players[0].hand = []
+                self.players[1].hand = []
+
+        self.deck = self.deck[4:]
 
     """ Initializes deck with all cards """
     def init_deck(self) -> None:
+        self.deck = []
         # Initializing
         ranks = ["spades", "clubs", "cups", "coins"]
         for i in ranks:
