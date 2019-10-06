@@ -1,10 +1,11 @@
 import random
+from itertools import combinations
 from card import *
 from player import *
 from typing import List
 
 class Scopa:
-    def __init__(self, p1: Player, p2: Player):
+    def __init__(self, p1=Player("p1"), p2=Player("p2")):
         self.deck = []
         self.score = (0, 0)
         self.round = 0
@@ -73,7 +74,7 @@ class Scopa:
             self.deck[i] = self.deck[j]
             self.deck[j] = temp
 
-    """ Checks if a move is valid. p is the player's card and t is a list of cards on the table """
+    """ Checks if a move is valid. p is the player's card and t is a list of cards to be taken """
     def valid_move(self, p: Card, t: List[Card]) -> bool:
         # check if values add up
         count = 0
@@ -86,15 +87,25 @@ class Scopa:
             for i in self.table:
                 if i.value == p.value:
                     return False
-
         return True
 
-    """ Updates game state with move, p is the index of the card int the player's hand and
-    t is a list with the indices of the cards in the table to be taken """
-    def move(self, player: Player, p: int, t: List[int]):
-        pass
-
+    """ Updates game state with move, p is the player's card index and
+    t is a list with the indices in the table to be taken 
+    Returns true if successful, false if not. """
+    def move(self, player: Player, p_card: int, t_cards: List[int]) -> bool:
+        # check that the move is valid
+        if self.valid_move(player.hand[p_card], [self.table[i] for i in t_cards]):
+            table_cards = [self.table[i] for i in t_cards]
+            # put cards into player's pile
+            player.pile.extend(table_cards.append(player.hand[p_card]))
+            # remove cards from table and player's hand
+            player.hand.pop(p_card)
+            for card in table_cards:
+                self.table.remove(card)
+            return True
+        else:
+            return False
+        
     """ Scores each player's pile of cards and returns score for round, also increments round """
-
     def score(self, p1: Player, p2: Player) -> (int, int):
         pass
