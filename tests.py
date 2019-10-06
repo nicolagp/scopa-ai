@@ -32,8 +32,29 @@ class ScopaTest(unittest.TestCase):
         allCards = set(self.scopa.deck).union(set(self.scopa.players[0].hand), set(self.scopa.players[1].hand), self.scopa.table)
         self.assertEqual(len(allCards), 40)
 
-    def test_move(self):
-        pass
+    """
+    Game configuration with seed 40:
+    Player 1: (clubs, 5) (spades, 9) (cups, 7) 
+    Table: (coins, 2) (clubs, 3) (cups, 5) (coins, 8) 
+    Player 2: (clubs, 10) (coins, 4) (cups, 1) 
+    """
+    def test_move1(self):
+        self.assertEqual(self.scopa.move(self.scopa.players[0], 0, [2]), True)
+        self.assertEqual(len(self.scopa.players[0].hand), 2)
+        self.assertEqual(len(self.scopa.players[0].pile), 2)
+        self.assertEqual(len(self.scopa.table), 3)
+
+    def test_move2(self):
+        self.assertEqual(self.scopa.move(self.scopa.players[1], 0, [0, 3]), True)
+        self.assertEqual(len(self.scopa.players[1].hand), 2)
+        self.assertEqual(len(self.scopa.players[1].pile), 3)
+        self.assertEqual(len(self.scopa.table), 2)
+
+    def test_move3(self):
+        self.assertEqual(self.scopa.move(self.scopa.players[1], 0, [0, 2, 3]), False)
+        self.assertEqual(len(self.scopa.players[1].hand), 3)
+        self.assertEqual(len(self.scopa.players[1].pile), 0)
+        self.assertEqual(len(self.scopa.table), 4)
 
     def test_score(self):
         pass

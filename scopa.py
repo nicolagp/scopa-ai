@@ -67,6 +67,9 @@ class Scopa:
 
     """ Shuffles deck using the Fisher-Yates algorithm """
     def shuffle(self):
+        # Seed for testing purposes
+        random.seed(40)
+
         # Shuffling
         for i in range(1, 40):
             j = random.randint(0, i)
@@ -93,11 +96,12 @@ class Scopa:
     t is a list with the indices in the table to be taken 
     Returns true if successful, false if not. """
     def move(self, player: Player, p_card: int, t_cards: List[int]) -> bool:
+        table_cards = [self.table[i] for i in t_cards]
         # check that the move is valid
-        if self.valid_move(player.hand[p_card], [self.table[i] for i in t_cards]):
-            table_cards = [self.table[i] for i in t_cards]
+        if self.valid_move(player.hand[p_card], table_cards):
             # put cards into player's pile
-            player.pile.extend(table_cards.append(player.hand[p_card]))
+            player.pile.extend(table_cards)
+            player.pile.append(player.hand[p_card])
             # remove cards from table and player's hand
             player.hand.pop(p_card)
             for card in table_cards:
@@ -105,7 +109,27 @@ class Scopa:
             return True
         else:
             return False
-        
-    """ Scores each player's pile of cards and returns score for round, also increments round """
-    def score(self, p1: Player, p2: Player) -> (int, int):
+
+    """ Scores each player's pile of cards and returns score """
+    def score(self, p: Player) -> int:
         pass
+
+    """ print game """
+    def print(self):
+        # print player 1 hand
+        print("Player 1: ", end="")
+        for card in self.players[0].hand:
+            print(card, end=" ")
+        print("")
+
+        # print table
+        print("Table: ", end="")
+        for card in self.table:
+            print(card, end=" ")
+        print("")
+
+        # print player 1 hand
+        print("Player 2: ", end="")
+        for card in self.players[1].hand:
+            print(card, end=" ")
+        print("")
