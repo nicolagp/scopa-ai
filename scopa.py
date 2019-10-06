@@ -123,7 +123,7 @@ class Scopa:
             return False
 
     """ Scores each player's pile of cards and returns a boolean indicating if the game ended. Also increments round """
-    def score_round(self, p1: Player, p2: Player) -> bool:
+    def score_round(self, p1: Player, p2: Player, verbose=True) -> bool:
         # number of cards
         p1_num_cards = len(p1.pile)
         p2_num_cards = len(p2.pile)
@@ -158,24 +158,46 @@ class Scopa:
         if (max(self.score) > 10) and (self.score[0] != self.score[1]):
             return True
         else:
+            if verbose:
+                self.round_summary([p1_num_cards, p2_num_cards],
+                                   [p1_num_coins, p2_num_coins],
+                                   [p1.settebello, p2.settebello],
+                                   [p1_prima, p2_prima],
+                                   [p1.scopas, p2.scopas])
             return False
 
-    """ print game """
-    def print(self):
+    def __str__(self):
+        out = ""
         # print player 1 hand
-        print("Player 1: ", end="")
+        out += "Player 1: "
         for card in self.players[0].hand:
-            print(card, end=" ")
-        print("")
+            out += str(card) + " "
+        out += "\n"
 
         # print table
-        print("Table: ", end="")
+        out += "Table: "
         for card in self.table:
-            print(card, end=" ")
-        print("")
+            out += str(card) + " "
+        out += "\n"
 
         # print player 1 hand
-        print("Player 2: ", end="")
+        out += "Player 2: "
         for card in self.players[1].hand:
-            print(card, end=" ")
-        print("")
+            out += str(card) + " "
+        out += "\n"
+
+        return out
+
+    """
+    Outputs a summary of points for the round
+    """
+    def round_summary(self, cards: List[int], coins: List[int], settebello: List[bool], prima: List[int], scopas: List[int]):
+        print("----------- Round Summary -----------")
+        print("({}, {})".format(self.players[0], self.players[1]))
+        print("Cards: {}, {}".format(cards[0], cards[1]))
+        print("Coins: {}, {}".format(coins[0], coins[1]))
+        print("Settebello: {}, {}".format(settebello[0], settebello[1]))
+        print("Prima: {}, {}".format(prima[0], prima[1]))
+        print("Scopas: {}, {}".format(scopas[0], scopas[1]))
+        print("Score: {}, {}".format(self.score[0], self.score[1]))
+        print("-------------------------------------")

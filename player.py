@@ -7,6 +7,9 @@ class Player:
         self.scopas = 0
         self.settebello = False
 
+    def __str__(self):
+        return self.name
+
     def get_primas(self, suit: str) -> List[int]:
         cards = []
         for card in self.pile:
