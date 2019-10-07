@@ -1,8 +1,9 @@
 # scopa-ai
 
 ## Status
-Working on the implementation. Need to finish coding the scopa class, as well as coding the main loop for
- the game.
+The game logic is finalized and I'm working on the main loop of the game. Another important step is the format of 
+the display for each round. After the coding of the game is finished, I'm going to work on playing startegies. Below is 
+a list of strategies to be implemented.
  
 ## Proposed playing strategies
 - v0: randomized moves
