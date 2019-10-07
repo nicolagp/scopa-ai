@@ -25,7 +25,7 @@ class ScopaTest(unittest.TestCase):
     def setUp(self) -> None:
         self.p1 = Player("p1")
         self.p2 = Player("p2")
-        self.scopa = Scopa(self.p1, self.p2)
+        self.scopa = Scopa(self.p1, self.p2, test=True)
 
     def test_start(self):
         # make sure all cards are in the game

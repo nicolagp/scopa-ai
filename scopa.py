@@ -4,12 +4,13 @@ from player import *
 from typing import List
 
 class Scopa:
-    def __init__(self, p1=Player("p1"), p2=Player("p2")):
+    def __init__(self, p1=Player("p1"), p2=Player("p2"), test=False):
         self.deck = []
         self.score = (0, 0)
         self.round = 0
         self.players = (p1, p2)
         self.table = []
+        self.test = test
         # initialize game
         self.start_round()
 
@@ -73,7 +74,8 @@ class Scopa:
     """ Shuffles deck using the Fisher-Yates algorithm """
     def shuffle(self):
         # Seed for testing purposes
-        random.seed(40)
+        if self.test:
+            random.seed(40)
 
         # Shuffling
         for i in range(1, 40):
