@@ -30,5 +30,5 @@ class Player:
     def cleanup(self):
         self.hand = []
         self.pile = []
-        self.scopas = []
+        self.scopas = 0
         self.settebello = False

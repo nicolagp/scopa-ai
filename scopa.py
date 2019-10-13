@@ -6,7 +6,7 @@ from typing import List
 class Scopa:
     def __init__(self, p1=Player("p1"), p2=Player("p2"), test=False):
         self.deck = []
-        self.score = (0, 0)
+        self.score = [0, 0]
         self.round = 0
         self.players = (p1, p2)
         self.table = []
@@ -86,6 +86,8 @@ class Scopa:
 
     """ Checks if a move is valid. p is the player's card and t is a list of cards to be taken """
     def valid_move(self, p: Card, t: List[Card]) -> bool:
+        if len(t) == 0:
+            return True
         # check if values add up
         count = 0
         for i in t:
@@ -101,11 +103,16 @@ class Scopa:
 
     """ Updates game state with move, p is the player's card index and
     t is a list with the indices in the table to be taken 
+    Obs: to put card on table t_cards should have length 0
     Returns true if successful, false if not. """
     def move(self, player: Player, p_card: int, t_cards: List[int]) -> bool:
         table_cards = [self.table[i] for i in t_cards]
+        if len(t_cards) == 0:
+            self.table.append(player.hand[p_card])
+            player.hand.pop(p_card)
+            return True
         # check that the move is valid
-        if self.valid_move(player.hand[p_card], table_cards):
+        elif self.valid_move(player.hand[p_card], table_cards):
             # check settebello
             settebello = Card("coins", 7)
             if settebello in table_cards or player.hand[p_card] == settebello:
@@ -171,7 +178,7 @@ class Scopa:
     def __str__(self):
         out = ""
         # print player 1 hand
-        out += "Player 1: "
+        out += "{}: ".format(self.players[0].name)
         for card in self.players[0].hand:
             out += str(card) + " "
         out += "\n"
@@ -183,7 +190,7 @@ class Scopa:
         out += "\n"
 
         # print player 1 hand
-        out += "Player 2: "
+        out += "{}: ".format(self.players[1].name)
         for card in self.players[1].hand:
             out += str(card) + " "
         out += "\n"
