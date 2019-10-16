@@ -2,6 +2,7 @@ import random
 from card import *
 from player import *
 from typing import List
+from itertools import chain, combinations
 
 class Scopa:
     def __init__(self, p1=Player("p1"), p2=Player("p2"), test=False):
@@ -11,6 +12,7 @@ class Scopa:
         self.players = (p1, p2)
         self.table = []
         self.test = test
+        self.last = p1
         # initialize game
         self.start_round()
 
@@ -59,6 +61,7 @@ class Scopa:
                     self.deck.append(self.players[1].hand[i])
                 self.players[0].hand = []
                 self.players[1].hand = []
+                self.table = []
 
         self.deck = self.deck[4:]
 
@@ -86,8 +89,6 @@ class Scopa:
 
     """ Checks if a move is valid. p is the player's card and t is a list of cards to be taken """
     def valid_move(self, p: Card, t: List[Card]) -> bool:
-        if len(t) == 0:
-            return True
         # check if values add up
         count = 0
         for i in t:
@@ -106,13 +107,25 @@ class Scopa:
     Obs: to put card on table t_cards should have length 0
     Returns true if successful, false if not. """
     def move(self, player: Player, p_card: int, t_cards: List[int]) -> bool:
+        # check indices
+        if p_card >= len(player.hand):
+            return False
+        for i in t_cards:
+            if i >= len(self.table):
+                return False
         table_cards = [self.table[i] for i in t_cards]
         if len(t_cards) == 0:
+            s = [card.value for card in self.table]
+            combs = chain.from_iterable(combinations(s, r) for r in range(2, len(s) + 1))
+            for cards in combs:
+                if sum(cards) == player.hand[p_card].value:
+                    return False
             self.table.append(player.hand[p_card])
             player.hand.pop(p_card)
             return True
         # check that the move is valid
         elif self.valid_move(player.hand[p_card], table_cards):
+            last = player
             # check settebello
             settebello = Card("coins", 7)
             if settebello in table_cards or player.hand[p_card] == settebello:

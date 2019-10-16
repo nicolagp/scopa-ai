@@ -10,15 +10,15 @@ class Player:
     def __str__(self):
         return self.name
 
-    def get_primas(self, suit: str) -> List[int]:
+    def get_primas(self, suit: str) -> int:
         cards = []
         for card in self.pile:
             if card.rank == suit:
                 cards.append(card.prima())
         if len(cards) == 0:
-            return [0]
+            return 0
         else:
-            return cards
+            return max(cards)
 
     def get_coins(self):
         num_coins = 0

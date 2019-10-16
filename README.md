@@ -6,9 +6,8 @@ the display for each round. After the coding of the game is finished, I'm going 
 a list of strategies to be implemented.
 
 ## To do
-- Extend funtion that checks valid moves to include the case of trying to put card with a match on table 
 - Think of a better way of displaying the game
-- Corner case: round ends, figure out who to give the remaining cards to
+- Check fix for trying to take a card that has 2 on the table
 
 ## Proposed playing strategies
 - Random Moves

@@ -26,8 +26,8 @@ def main():
                     if len(move) < 1:
                         continue
                     elif len(move) > 1:
-                        for i in move[1:]:
-                            table.append(int(i))
+                        for j in move[1:]:
+                            table.append(int(j))
                     if scopa.move(player, int(move[0]), table):
                         break
                     else:
@@ -38,6 +38,10 @@ def main():
         if len(scopa.deck) > 0:
             scopa.deal()
         else:
+            # Give remaining cards to last player to take cards
+            for card in scopa.table:
+                scopa.last.pile.append(card)
+            scopa.table = []
             if scopa.score_round(p1, p2):
                 if scopa.score[0] > scopa.score[1]:
                     print("{} won!".format(scopa.players[0]))
