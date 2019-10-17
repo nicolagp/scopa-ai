@@ -7,7 +7,7 @@ a list of strategies to be implemented.
 
 ## To do
 - Think of a better way of displaying the game
-- Check fix for trying to take a card that has 2 on the table
+- Work on randomized playing strategy and player inheritance
 
 ## Proposed playing strategies
 - Random Moves
