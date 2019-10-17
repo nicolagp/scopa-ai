@@ -56,5 +56,8 @@ class ScopaTest(unittest.TestCase):
         self.assertEqual(len(self.scopa.players[1].pile), 0)
         self.assertEqual(len(self.scopa.table), 4)
 
-    def test_score(self):
-        pass
+    def test_can_take_when_2_cards_on_table(self):
+        self.scopa.table = [Card("cups", 4), Card("coins", 4)]
+        self.scopa.players[0].hand = [Card("spades", 4)]
+        self.assertEqual(self.scopa.move(self.scopa.players[0], 0, [0]), True)
+        print(self.scopa)
