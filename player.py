@@ -32,6 +32,3 @@ class Player:
         self.pile = []
         self.scopas = 0
         self.settebello = False
-
-    def move(self):
-        pass

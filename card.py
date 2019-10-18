@@ -4,7 +4,10 @@ class Card:
         self.value = value
 
     def __eq__(self, other):
-        return True if (self.rank == other.rank) and (self.value == other.value) else False
+        if (self.rank == other.rank) and (self.value == other.value):
+            return True
+        else:
+            return False
 
     def __hash__(self):
         return hash((self.rank, self.value))
