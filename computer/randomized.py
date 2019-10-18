@@ -9,20 +9,11 @@ class Randomized(Computer):
     Out: card_on_hand: Card, cards_on_table: List[Card]
     """
     def move(self):
-        hand = self.shuffle()
+        hand = random.shuffle(list(self.hand))
         table_combs = self.get_combinations()
         for card in hand:
             for comb in table_combs:
                 if self.valid_move(card, list(comb)):
-                    return card, list(comb)
+                    return hand.index(card), [self.table.index(i) for i in table_combs]
 
-        return hand[random.randint(0, len(hand)-1)], [0]
-
-    def shuffle(self):
-        random_hand = list(self.hand)
-        for i in range(1, len(random_hand)):
-            j = random.randint(0, i)
-            temp = random_hand[i]
-            random_hand[i] = random_hand[j]
-            random_hand[j] = temp
-        return random_hand
+        return random.randint(0, len(hand)-1), [0]
